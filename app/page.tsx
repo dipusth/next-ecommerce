@@ -1,103 +1,230 @@
 import Image from "next/image";
+import { Outfit } from "next/font/google";
 
-export default function Home() {
+import "./page.css";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { stripe } from "@/lib/stripe";
+import { ProductType } from "@/types/PostType";
+import Stripe from "stripe";
+import { Carousel } from "@/components/carousel";
+
+const OutfitFont = Outfit({
+  subsets: ["latin"],
+  weight: ["500", "700", "900"],
+});
+
+interface Props {
+  products: Stripe.Product[];
+}
+
+export default async function Home() {
+  const products = await stripe.products.list({
+    // expand: ["data.default_price"],
+    limit: 5,
+  });
+  console.log("products from stripe", products);
+  const marqueeCourse = [
+    "Zara",
+    "Tommy Hilfiger",
+    "Lenovo",
+    "Gucci",
+    "Under Armour",
+    "L'Oréals",
+    "Dell",
+    "Huawei ",
+    "Puma",
+    "Gucci",
+    "Under Armour",
+    "Levi’s",
+    "Philips",
+  ];
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <div className={`${OutfitFont.className}`}>
+      {/* Hero Section */}
+      <section className="hero-section props-wrapper py-3">
+        <div className="container items-center h-full relative">
+          <div className="flex mx-auto item-center border-dotted border-slate-300 border-3 rounded-lg pl-7 pr-3">
+            <div className="her-img flex-1 w-[70%]">
+              {/* <img className="w-full" src={heroImg} alt="Hero Image" /> */}
+              <Image
+                src={"/hero-img.png"}
+                alt="Hero Image"
+                className="w-full"
+                width="500"
+                height="300"
+                priority // Optional: if it's above-the-fold content
+              />
+            </div>
+            <div className="flex flex-col w-[30%] pl-5">
+              <div className="uppercase pb-6 font-bold">
+                <span>Get upto</span>
+                <span className="block text-5xl">
+                  <span className="text-primary">50%</span> off
+                </span>
+              </div>
+              <h1 className="text-3 title font-nohemi capitalize flex align-center pb-3">
+                Just
+                <span className="font-black slider ml-3">
+                  <span className="slide1 text-orange-400">Click Away</span>
+                  <span className="slide2 text-orange-400">Shop Smart</span>
+                  <span className="slide3 text-orange-400">Live Better</span>
+                </span>
+              </h1>
+              <p className="text-slate-400">
+                Discover a better way to shop — stylish, simple, and delivered
+                to your door
+              </p>
+            </div>
+          </div>
+          <div className="props ">
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src={"/ballons.png"}
+              alt="Balloons"
+              width={37}
+              height={100}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+      {/* Marquee Section */}
+      <section>
+        <div className="list-marquee text-center item-center container">
+          {[...Array(3)].map((_, index) => (
+            <ul key={index} className="list-none list text-gray-400 font-bold">
+              {marqueeCourse.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </section>
+      {/* View Products */}
+      <section className="mt-10">
+        <div className="container">
+          <div className="flex justify-between">
+            <h3>Flash Sale</h3>
+            <Link href="/products" className="flex items-center">
+              <ArrowRight size={18} className="mr-1 hover:mr-3" />
+              View All
+            </Link>
+          </div>
+          <div className="cards flex flex-wrap justify-between mt-5">
+            {products.data.map((item, i) => {
+              console.log("map item", item.images[0]);
+              return (
+                <div className="card border">
+                  <Image
+                    src={"/props-2.svg"}
+                    alt="Product 1"
+                    width={200}
+                    height={200}
+                  />
+                  <h4>{item.id}</h4>
+                  <p>{item.description}</p>
+                </div>
+              );
+            })}
+            <div className="card border">
+              <Image
+                src={"/props-2.svg"}
+                alt="Product 1"
+                width={200}
+                height={200}
+              />
+              <h4>Product 1</h4>
+              <p>Description of Product 1</p>
+            </div>
+            <div className="card border">
+              <Image
+                src={"/props-2.svg"}
+                alt="Product 1"
+                width={200}
+                height={200}
+              />
+              <h4>Product 2</h4>
+              <p>Description of Product 2</p>
+            </div>
+            <div className="card border">
+              <Image
+                src={"/props-2.svg"}
+                alt="Product 1"
+                width={200}
+                height={200}
+              />
+              <h4>Product 1</h4>
+              <p>Description of Product 1</p>
+            </div>
+            <div className="card border">
+              <Image
+                src={"/props-2.svg"}
+                alt="Product 1"
+                width={200}
+                height={200}
+              />
+              <h4>Product 2</h4>
+              <p>Description of Product 2</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* carouel */}
+      <section>
+        <div className="container">
+          <Carousel products={products.data} />
+        </div>
+      </section>
+      <section>
+        <div className="container">
+          <div className="mid-block text-center mx-auto mt-10">
+            <h2 className="text-2 title">
+              Your Wishlist
+              <span className="text-primary font-bold ml-2">
+                Delivered Fast
+              </span>
+            </h2>
+            <p>Why Pay More? Shop Online for Less</p>
+          </div>
+        </div>
+        <div className="video-cards">
+          {/* <Carousel>
+            {videoCard.map((video, i) => (
+              <div className="video-wrapper h-full" key={i}>
+                <div className="video-item item h-full">
+                  <img src={video.img} alt="Video Image" />
+                  <video muted loop preload="auto">
+                    <source src={video.video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <span className="video-shadow"></span>
+              </div>
+            ))}
+          </Carousel> */}
+          {/* <div className="owl-carousel owl-theme" id="owl-carousel">
+            {videoCard.map((video, i) => (
+              <div className="video-wrapper h-full">
+                <div className="video-item item h-full">
+                  <img src={video.img} alt="Video Image" />
+                  <video muted loop preload="auto">
+                    <source src={video.video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+                <span className="video-shadow"></span>
+              </div>
+            ))}
+          </div> */}
+        </div>
+      </section>
+      {/* <div className="h-screen flex items-center justify-center gap-6">
+      <Button size="xl" className="rounded-full text-secondary">
+        
+      <CirclePlus />
+        Click me
+        </Button>
+    </div> */}
     </div>
   );
 }
