@@ -1,8 +1,45 @@
+"use client";
 import Link from "next/link";
 import Navigation from "./Navigation";
 import Image from "next/image";
+import { useCart } from "@/context/CartContext";
+import { ChevronDown, ShoppingCart, UserRound } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  deleteActiveUser,
+  getActiveUser,
+  IuserType,
+} from "@/utils/LocalStorage";
+import { redirect, usePathname } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const Navbar = () => {
+  const { cart } = useCart();
+  const [activeUser, setActiveUser] = useState<IuserType>();
+  const pathname = usePathname();
+  console.log("pathname", pathname);
+
+  useEffect(() => {
+    const data = getActiveUser();
+    // if (data == null) {
+    //   redirect("/login");
+    // }
+    setActiveUser(data);
+  }, []);
+
+  const handleLogOut = () => {
+    deleteActiveUser();
+    redirect("/login");
+  };
+  const hasCart = cart.length;
+  console.log("cart lemnth", hasCart);
   return (
     <header className="pb-3">
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
@@ -61,38 +98,59 @@ const Navbar = () => {
             </div>
           </div>
           <Navigation />
-          <div className="flex gap-5 lg:flex-1 lg:justify-end">
-            <a href="Sign In"></a>
-            <a
-              href="Sign Up"
-              className="bg-primary rounded-2xl text-white px-5 py-2"
-            >
-              Get Started
-            </a>
+          <div className="flex gap-5 lg:flex-1 lg:justify-end items-center">
+            {activeUser && (
+              <div className="user-profile flex items-center mr-2">
+                <span className="circle circle-sm border-4 border-slate-200 mr-2 relative">
+                  {/* <Image
+                    src={"/profile.jpg"}
+                    alt={"Profile"}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  /> */}
+                  <UserRound />
+                </span>
+                <div className=" flex flex-col">
+                  <h4> {activeUser?.name}</h4>
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild className="p-2 cursor-pointer">
+                    <span className="angle-down text-slate-500">
+                      {" "}
+                      <ChevronDown />
+                    </span>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    className="w-56"
+                    align="start"
+                    side="left"
+                    sideOffset={8}
+                  >
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>Billing</DropdownMenuItem>
+                      <DropdownMenuItem>Settings</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={handleLogOut}
+                        className="cursor-pointer"
+                      >
+                        Logout
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
+            <Link href={"/cart"} className="cart notification">
+              <ShoppingCart />
+              {hasCart > 0 ? (
+                <span className="badge rounded-full bg-red-600">{hasCart}</span>
+              ) : (
+                ""
+              )}
+            </Link>
           </div>
-          {/* <div className="justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-                <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                    <li>
-                        <a href="#" className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</a>
-                    </li>
-                    <li>
-                        <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Company</a>
-                    </li>
-                    <li>
-                      <Link href="/products" >Products</Link>  
-                      
-                    </li>
-                    <li>
-                        <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Features</a>
-                    </li>
-                    <li>
-                        <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Team</a>
-                    </li>
-                    <li>
-                        <a href="#" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-                    </li>
-                </ul>
-            </div> */}
         </div>
       </nav>
     </header>

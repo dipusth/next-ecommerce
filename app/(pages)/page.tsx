@@ -4,10 +4,9 @@ import { Outfit } from "next/font/google";
 import "./page.css";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { stripe } from "@/lib/stripe";
-import { ProductType } from "@/types/PostType";
+import { stripe, stripeCarousel } from "@/lib/stripe";
 import Stripe from "stripe";
-import { Carousel } from "@/components/carousel";
+import { Carousel } from "@/components/Carousel";
 
 const OutfitFont = Outfit({
   subsets: ["latin"],
@@ -20,10 +19,14 @@ interface Props {
 
 export default async function Home() {
   const products = await stripe.products.list({
-    // expand: ["data.default_price"],
+    expand: ["data.default_price"],
     limit: 5,
   });
+  const productsCarousel = await stripeCarousel.products.list({
+    expand: ["data.default_price"],
+  });
   console.log("products from stripe", products);
+  console.log("productsCarousel  from stripe", productsCarousel);
   const marqueeCourse = [
     "Zara",
     "Tommy Hilfiger",
@@ -44,23 +47,24 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="hero-section props-wrapper py-3">
         <div className="container items-center h-full relative">
-          <div className="flex mx-auto item-center border-dotted border-slate-300 border-3 rounded-lg pl-7 pr-3">
+          <div className="flex mx-auto item-center border-dotted border-slate-300 border-3 rounded-lg pl-7 pr-3 py-5">
             <div className="her-img flex-1 w-[70%]">
               {/* <img className="w-full" src={heroImg} alt="Hero Image" /> */}
-              <Image
+              {/* <Image
                 src={"/hero-img.png"}
                 alt="Hero Image"
                 className="w-full"
                 width="500"
                 height="300"
                 priority // Optional: if it's above-the-fold content
-              />
+              /> */}
+              <Carousel products={productsCarousel.data} />
             </div>
             <div className="flex flex-col w-[30%] pl-5">
               <div className="uppercase pb-6 font-bold">
                 <span>Get upto</span>
                 <span className="block text-5xl">
-                  <span className="text-primary">50%</span> off
+                  <span className="text-primary">60%</span> off
                 </span>
               </div>
               <h1 className="text-3 title font-nohemi capitalize flex align-center pb-3">
@@ -75,6 +79,12 @@ export default async function Home() {
                 Discover a better way to shop — stylish, simple, and delivered
                 to your door
               </p>
+              <Link
+                href="/products"
+                className="border rounded-4xl px-3 py-2 w-30 item-center mt-3"
+              >
+                Read More
+              </Link>
             </div>
           </div>
           <div className="props ">
@@ -109,62 +119,24 @@ export default async function Home() {
               View All
             </Link>
           </div>
-          <div className="cards flex flex-wrap justify-between mt-5">
+          <div className="cards flex gap-1 flex-wrap justify-between mt-5">
             {products.data.map((item, i) => {
               console.log("map item", item.images[0]);
               return (
-                <div className="card border">
-                  <Image
-                    src={"/props-2.svg"}
-                    alt="Product 1"
-                    width={200}
-                    height={200}
-                  />
-                  <h4>{item.id}</h4>
-                  <p>{item.description}</p>
+                <div className="w-[18%] gap-3 border rounded-sm p-5" key={i}>
+                  <div className="card border rounded-sm h-50 w-full mb-2 relative p-5">
+                    <Image
+                      src={item.images[0]}
+                      alt="Product 1"
+                      fill
+                      style={{ objectFit: "contain" }}
+                    />
+                  </div>
+                  {/* <span>{item?.default_price}</span> */}
+                  <p>{item.name}</p>
                 </div>
               );
             })}
-            <div className="card border">
-              <Image
-                src={"/props-2.svg"}
-                alt="Product 1"
-                width={200}
-                height={200}
-              />
-              <h4>Product 1</h4>
-              <p>Description of Product 1</p>
-            </div>
-            <div className="card border">
-              <Image
-                src={"/props-2.svg"}
-                alt="Product 1"
-                width={200}
-                height={200}
-              />
-              <h4>Product 2</h4>
-              <p>Description of Product 2</p>
-            </div>
-            <div className="card border">
-              <Image
-                src={"/props-2.svg"}
-                alt="Product 1"
-                width={200}
-                height={200}
-              />
-              <h4>Product 1</h4>
-              <p>Description of Product 1</p>
-            </div>
-            <div className="card border">
-              <Image
-                src={"/props-2.svg"}
-                alt="Product 1"
-                width={200}
-                height={200}
-              />
-              <h4>Product 2</h4>
-              <p>Description of Product 2</p>
-            </div>
           </div>
         </div>
       </section>
@@ -172,7 +144,7 @@ export default async function Home() {
       {/* carouel */}
       <section>
         <div className="container">
-          <Carousel products={products.data} />
+          {/* <Carousel products={productsCarousel.data} /> */}
         </div>
       </section>
       <section>
