@@ -41,7 +41,7 @@ const Navbar = () => {
   const hasCart = cart.length;
   console.log("cart lemnth", hasCart);
   return (
-    <header className="pb-3">
+    <header className="sticky top-0 bg-white z-1">
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div className="flex justify-between items-center container mx-auto max-w-screen-xl">
           <div className="flex lg:flex-1">
@@ -99,49 +99,6 @@ const Navbar = () => {
           </div>
           <Navigation />
           <div className="flex gap-5 lg:flex-1 lg:justify-end items-center">
-            {activeUser && (
-              <div className="user-profile flex items-center mr-2">
-                <span className="circle circle-sm border-4 border-slate-200 mr-2 relative">
-                  {/* <Image
-                    src={"/profile.jpg"}
-                    alt={"Profile"}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  /> */}
-                  <UserRound />
-                </span>
-                <div className=" flex flex-col">
-                  <h4> {activeUser?.name}</h4>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild className="p-2 cursor-pointer">
-                    <span className="angle-down text-slate-500">
-                      {" "}
-                      <ChevronDown />
-                    </span>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    className="w-56"
-                    align="start"
-                    side="left"
-                    sideOffset={8}
-                  >
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Settings</DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={handleLogOut}
-                        className="cursor-pointer"
-                      >
-                        Logout
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            )}
             <Link href={"/cart"} className="cart notification">
               <ShoppingCart />
               {hasCart > 0 ? (
@@ -150,6 +107,55 @@ const Navbar = () => {
                 ""
               )}
             </Link>
+            <div className="user-profile flex items-center mr-2">
+              <span className="circle circle-sm border-4 border-slate-200 mr-2 relative">
+                {/* <Image
+                    src={"/profile.jpg"}
+                    alt={"Profile"}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  /> */}
+                <UserRound />
+              </span>
+              {activeUser ? (
+                <>
+                  <div className=" flex flex-col">
+                    <h4> {activeUser?.name}</h4>
+                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild className="p-2 cursor-pointer">
+                      <span className="angle-down text-slate-500">
+                        {" "}
+                        <ChevronDown />
+                      </span>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      className="w-56"
+                      align="start"
+                      side="left"
+                      sideOffset={8}
+                    >
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                        <DropdownMenuItem>Billing</DropdownMenuItem>
+                        <DropdownMenuItem>Settings</DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={handleLogOut}
+                          className="cursor-pointer"
+                        >
+                          Logout
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </>
+              ) : (
+                <Link href={"/login"} className="cart notification">
+                  Login
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </nav>

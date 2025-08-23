@@ -35,6 +35,7 @@ const Cart = () => {
                 </div>
                 <div className="ml-5 flex-2">
                   <h4> {item.name}</h4>
+                  {/* <span>{item}</span> */}
                   <p> {item.description}</p>
                 </div>
               </CartWrapper>
