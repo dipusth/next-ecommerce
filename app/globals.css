@@ -202,7 +202,8 @@ body {
 
 .container {
   margin: 0 auto;
-  padding: 0 .9375rem;
+  padding-left: .9375rem;
+  padding-right: .9375rem;
 
   @media (min-width: 768px) {
     max-width: 1246px !important;
@@ -236,8 +237,7 @@ body {
 } */
 
 .title {
-  color: #1e1f24;
-  font-weight: 700;
+   font-weight: 700;
   font-family: var(--font-nohemi);
 }
 .text-gradient {
@@ -589,7 +589,17 @@ table{
 .card-brown {
   background-color: #a88964;
 }
-
+/* search wrapper */
+.search-wrapper{
+  &:focus-visible, &:focus, &:focus-within{
+    outline: 1px solid #0285ab;
+  }
+  input{
+    &:focus-visible{
+      box-shadow: none;
+    }
+  }
+}
 
 /* Tooltip */
 .tooltip{

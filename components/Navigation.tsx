@@ -17,7 +17,7 @@ const Navigation = () => {
           href={navLink.route}
           className={
             pathname === navLink.route
-              ? "font-bold text-blue-500  mr-4"
+              ? "font-bold text-primary  mr-4"
               : "mr-4"
           }
         >
@@ -27,14 +27,14 @@ const Navigation = () => {
 
       <Link
         href={"/"}
-        className={pathname === "/" ? "font-bold text-blue-500  mr-4" : "mr-4"}
+        className={pathname === "/" ? "font-bold text-primary  mr-4" : "mr-4"}
       >
         Home
       </Link>
       <Link
         href={"/products"}
         className={
-          pathname === "/products" ? "font-bold text-blue-500  mr-4" : "mr-4"
+          pathname === "/products" ? "font-bold text-primary  mr-4" : "mr-4"
         }
       >
         Products
@@ -42,7 +42,7 @@ const Navigation = () => {
       <Link
         href={"/about"}
         className={
-          pathname === "/about" ? "font-bold text-blue-500  mr-4" : "mr-4"
+          pathname === "/about" ? "font-bold text-primary  mr-4" : "mr-4"
         }
       >
         About
@@ -50,12 +50,11 @@ const Navigation = () => {
       <Link
         href={"/contact"}
         className={
-          pathname === "/contact" ? "font-bold text-blue-500  mr-4" : "mr-4"
+          pathname === "/contact" ? "font-bold text-primary  mr-4" : "mr-4"
         }
       >
         Contact
       </Link>
-      <ModeToggle />
     </div>
   );
 };

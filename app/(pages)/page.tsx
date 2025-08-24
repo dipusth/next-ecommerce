@@ -7,6 +7,7 @@ import { ArrowRight } from "lucide-react";
 import { stripe, stripeCarousel } from "@/lib/stripe";
 import Stripe from "stripe";
 import { Carousel } from "@/components/Carousel";
+import { ProductCard } from "@/components/ProductCard";
 
 const OutfitFont = Outfit({
   subsets: ["latin"],
@@ -47,8 +48,8 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="hero-section props-wrapper py-3">
         <div className="container items-center h-full relative">
-          <div className="flex mx-auto item-center border-dotted border-slate-300 border-3 rounded-lg pl-7 pr-3 py-5">
-            <div className="her-img flex-1 w-[70%]">
+          <div className="lg:flex mx-auto  border-dotted border-slate-300 border-3 rounded-lg pl-7 pr-3 py-5">
+            <div className="her-img flex-1 lg:w-[70%]">
               {/* <img className="w-full" src={heroImg} alt="Hero Image" /> */}
               {/* <Image
                 src={"/hero-img.png"}
@@ -60,7 +61,7 @@ export default async function Home() {
               /> */}
               <Carousel products={productsCarousel.data} />
             </div>
-            <div className="flex flex-col w-[30%] pl-5">
+            <div className="flex flex-col lg:w-[30%] pl-5 mt-5 lg:mt-0">
               <div className="uppercase pb-6 font-bold">
                 <span>Get upto</span>
                 <span className="block text-5xl">
@@ -119,21 +120,25 @@ export default async function Home() {
               View All
             </Link>
           </div>
-          <div className="cards flex gap-1 flex-wrap justify-between mt-5">
+          <div className="cards flex flex-wrap justify-between mt-5 gap-5">
             {products.data.map((item, i) => {
               console.log("map item", item.images[0]);
               return (
-                <div className="w-[18%] gap-3 border rounded-sm p-5" key={i}>
-                  <div className="card border rounded-sm h-50 w-full mb-2 relative p-5">
+                <div
+                  className="lg:w-[18%] md:w-[25%] w-full gap-3 border rounded-sm p-5"
+                  key={i}
+                >
+                  <ProductCard product={item} cardHeight="h-50" />
+                  {/* <div className="card border rounded-sm h-50 w-full mb-2 relative p-5">
                     <Image
                       src={item.images[0]}
                       alt="Product 1"
                       fill
                       style={{ objectFit: "contain" }}
                     />
-                  </div>
+                  </div> */}
                   {/* <span>{item?.default_price}</span> */}
-                  <p>{item.name}</p>
+                  {/* <p>{item.name}</p> */}
                 </div>
               );
             })}

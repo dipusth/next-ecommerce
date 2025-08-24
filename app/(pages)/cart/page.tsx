@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import CartWrapper from "./Style";
 import Image from "next/image";
+import ProductDetail from "@/components/ProductDetail";
 
 const Cart = () => {
   const { cart } = useCart();
@@ -23,21 +24,7 @@ const Cart = () => {
           {cart.map((item, key) => {
             return (
               <CartWrapper className="flex p-5 " key={key}>
-                <div className="icon-lg cart-img h-50 relative flex-1">
-                  <Image
-                    className="opacity-[0.9] h-20"
-                    src={item.images[0]}
-                    alt={item.name}
-                    title={item.name}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-                <div className="ml-5 flex-2">
-                  <h4> {item.name}</h4>
-                  {/* <span>{item}</span> */}
-                  <p> {item.description}</p>
-                </div>
+                <ProductDetail product={item} cardHeight="h-50" />
               </CartWrapper>
             );
           })}

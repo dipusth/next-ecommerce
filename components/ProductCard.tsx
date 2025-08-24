@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Stripe from "stripe";
 import {
@@ -22,6 +23,7 @@ import { useCart } from "@/context/CartContext";
 
 interface Props {
   product: Stripe.Product;
+  cardHeight: string;
 }
 
 interface CartItem {
@@ -31,7 +33,7 @@ interface CartItem {
   image?: string;
   // Add other properties you need in the cart
 }
-export const ProductCard = ({ product }: Props) => {
+export const ProductCard = ({ product, cardHeight }: Props) => {
   const [products, setProducts] = useState<Stripe.Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<Stripe.Product[]>(
     []
@@ -55,7 +57,9 @@ export const ProductCard = ({ product }: Props) => {
     <Card className="py-0 border-0 shadow-none rounded-lg gap-0">
       <Link href={`/products/${product.id}`}>
         {product.images && product.images[0] && (
-          <CardProduct className="card-product h-70 w-full relative border overflow-hidden rounded-sm bg-slate-300">
+          <CardProduct
+            className={`${cardHeight} card-product w-full relative border overflow-hidden rounded-sm bg-slate-300`}
+          >
             <Image
               className="opacity-[0.9]"
               src={product.images[0]}
@@ -100,7 +104,7 @@ export const ProductCard = ({ product }: Props) => {
         <Button
           type="button"
           variant={"outline"}
-          className="p-2 border text-gray-500 rounded-3xl mb-3"
+          className="p-2 border text-gray-500 rounded-3xl mb-3 cursor-pointer"
           onClick={addToCart} // Fixed: removed the direct function call
         >
           <ShoppingCart /> <span className="text-gray-500">Add to Cart</span>
