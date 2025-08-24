@@ -1,12 +1,6 @@
 "use client";
 import Stripe from "stripe";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card } from "./ui/card";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,7 +21,7 @@ export const Carousel = ({ products }: Props) => {
     return () => clearInterval(interval);
   }, [products.length]);
   const currentProduct = products[current];
-  const price = currentProduct.default_price as Stripe.Price;
+
   return (
     <Card className="relative h-[350] py-0 border-0 shadow-none rounded-lg">
       {currentProduct.images && currentProduct.images[0] && (
