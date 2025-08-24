@@ -23,7 +23,7 @@ export const Carousel = ({ products }: Props) => {
   const currentProduct = products[current];
 
   return (
-    <Card className="relative h-[350] py-0 border-0 shadow-none rounded-lg">
+    <Card className="relative h-[350px] py-0 border-0 shadow-none rounded-lg">
       {currentProduct.images && currentProduct.images[0] && (
         <div className="flex-1 w-full ">
           <Link href="/products">
