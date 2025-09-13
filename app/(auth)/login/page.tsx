@@ -12,23 +12,39 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
-import type { LoginType } from "@/types/PostType";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser, updateActiveUser } from "@/utils/LocalStorage";
 
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 const LoginPage = () => {
+  const formSchema = z.object({
+    username: z.string().email({ message: "Invalid email address" }),
+    password: z.string().min(6, {
+      message: "Password must be at least 6 characters.",
+    }),
+  });
+
+  type FormData = z.infer<typeof formSchema>;
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginType>();
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
 
-  const [data, setData] = useState<LoginType>({
+  const [data, setData] = useState<FormData>({
     username: "",
     password: "",
   });
-  const onSubmit: SubmitHandler<LoginType> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log("Submitted data:", data);
     // send to API or further process
     if (data.username == "" || data.password == "") {
@@ -159,7 +175,7 @@ const LoginPage = () => {
                         type="password"
                         placeholder="Enter your password"
                         {...register("password", {
-                          onchange: handleInputChannge,
+                          onChange: handleInputChannge,
                           required: "Password is required",
                           minLength: {
                             value: 6,

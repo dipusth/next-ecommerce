@@ -27,13 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

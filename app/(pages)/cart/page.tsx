@@ -3,15 +3,14 @@ import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import React from "react";
 import CartWrapper from "./Style";
-import Image from "next/image";
+
 import ProductDetail from "@/components/ProductDetail";
 
 const Cart = () => {
   const { cart } = useCart();
-  console.log("cart", cart);
   const hasCart = cart.length;
   return (
-    <div className="container">
+    <div className="container py-12">
       <div className="flex gap-8">
         <div className="p-5 border rounded-lg flex-2">
           {!hasCart && (

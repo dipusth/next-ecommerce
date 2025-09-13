@@ -41,7 +41,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 bg-white z-50 border-b dark:bg-gray-800">
-      <nav className="px-4 lg:px-6 py-3">
+      <nav className="px-4 lg:px-6 py-3 container">
         <div className="flex items-center justify-between max-w-screen-xl mx-auto">
           {/* Logo + Search */}
           <div className="flex items-center gap-4">

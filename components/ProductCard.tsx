@@ -1,13 +1,7 @@
 "use client";
 import Link from "next/link";
 import Stripe from "stripe";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
@@ -18,7 +12,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
-import { useState } from "react";
 import { useCart } from "@/context/CartContext";
 
 interface Props {
@@ -26,21 +19,14 @@ interface Props {
   cardHeight: string;
 }
 
-interface CartItem {
-  id: string; // Changed to string to match Stripe Product ID
-  name: string;
-  price: number;
-  image?: string;
-  // Add other properties you need in the cart
-}
 export const ProductCard = ({ product, cardHeight }: Props) => {
-  const [products, setProducts] = useState<Stripe.Product[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<Stripe.Product[]>(
-    []
-  );
+  // const [products, setProducts] = useState<Stripe.Product[]>([]);
+  // const [selectedProducts, setSelectedProducts] = useState<Stripe.Product[]>(
+  //   []
+  // );
   const price = product.default_price as Stripe.Price;
   const finalPrice = (price?.unit_amount ?? 0) / 100;
-  const oldprice = Number(finalPrice) - Number(finalPrice) * 0.2;
+  // const oldprice = Number(finalPrice) - Number(finalPrice) * 0.2;
 
   const { cart, setCart } = useCart();
 

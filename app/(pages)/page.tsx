@@ -1,11 +1,9 @@
 import Image from "next/image";
 import { Outfit } from "next/font/google";
-
 import "./page.css";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { stripe, stripeCarousel } from "@/lib/stripe";
-import Stripe from "stripe";
 import { Carousel } from "@/components/Carousel";
 import { ProductCard } from "@/components/ProductCard";
 
@@ -13,10 +11,6 @@ const OutfitFont = Outfit({
   subsets: ["latin"],
   weight: ["500", "700", "900"],
 });
-
-interface Props {
-  products: Stripe.Product[];
-}
 
 export default async function Home() {
   const products = await stripe.products.list({
@@ -26,8 +20,7 @@ export default async function Home() {
   const productsCarousel = await stripeCarousel.products.list({
     expand: ["data.default_price"],
   });
-  console.log("products from stripe", products);
-  console.log("productsCarousel  from stripe", productsCarousel);
+
   const marqueeCourse = [
     "Zara",
     "Tommy Hilfiger",
@@ -61,7 +54,7 @@ export default async function Home() {
               /> */}
               <Carousel products={productsCarousel.data} />
             </div>
-            <div className="flex flex-col lg:w-[30%] pl-5 mt-5 lg:mt-0">
+            <div className="flex flex-col lg:w-[30%] pl-8 mt-5 lg:mt-0 justify-center">
               <div className="uppercase pb-6 font-bold">
                 <span>Get upto</span>
                 <span className="block text-5xl">
@@ -82,7 +75,7 @@ export default async function Home() {
               </p>
               <Link
                 href="/products"
-                className="border rounded-4xl px-3 py-2 w-30 item-center mt-3"
+                className="bg-primary text-white rounded-4xl py-2 w-35 item-center mt-3 hover:bg-transparent hover:border hover:border-primary hover:text-primary flex justify-center transition-all duration-300"
               >
                 Read More
               </Link>
@@ -145,7 +138,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
       {/* carouel */}
       <section>
         <div className="container">
@@ -195,13 +187,6 @@ export default async function Home() {
           </div> */}
         </div>
       </section>
-      {/* <div className="h-screen flex items-center justify-center gap-6">
-      <Button size="xl" className="rounded-full text-secondary">
-        
-      <CirclePlus />
-        Click me
-        </Button>
-    </div> */}
     </div>
   );
 }
